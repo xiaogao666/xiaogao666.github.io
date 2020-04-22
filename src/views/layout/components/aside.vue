@@ -1,13 +1,14 @@
 <template>
-    <div>
-        <div><img src="../../login/logo_index.png" alt="" class="tp"></div>
+    <!-- <div> -->
+        <!-- <div><img src="../../login/logo_index.png" alt="" class="tp"></div> -->
           <el-menu
     default-active="/"
     background-color="#002033"
     text-color="pink"
     active-text-color="#ffd04b"
     router
-    class="abc"
+    class="aaa"
+    :collapse="isCollapse"
   >
     <el-menu-item index="/">
       <svg class="icon" aria-hidden="true">
@@ -52,7 +53,7 @@
       <span slot="title">个人设置</span>
     </el-menu-item>
   </el-menu>
-    </div>
+    <!-- </div> -->
 
 </template>
 
@@ -60,11 +61,20 @@
 export default {
   name: 'AppAside',
   methods: {
-  }
+  },
+  data () {
+    return {
+      // isCollapse: false
+    }
+  },
+  props: ['is-collapse']
 }
 </script>
 
 <style>
+.aaa {
+  padding-right: 20px;
+}
 .tp {
     width: 100%;
     /* margin-top: 10px; */

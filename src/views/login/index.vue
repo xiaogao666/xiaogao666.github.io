@@ -89,6 +89,8 @@ export default {
         })
         // 关闭login
         this.loginLoading = false
+        // 讲token保存到本地存储
+        window.localStorage.setItem('user', JSON.stringify(res.data.data))
         // 跳转到首页
         this.$router.push({
           name: 'home'

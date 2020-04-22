@@ -1,13 +1,17 @@
 <template>
   <el-container class="layout-container">
-    <el-aside class="aside" width="200px">
-      <app-aside class="aside-menu" />
+    <el-aside class="aside" width="auto">
+      <app-aside class="aside-menu" :is-collapse="isCollapse" />
       <!-- <AppAside /> -->
     </el-aside>
     <el-container>
       <el-header class="header">
         <div>
-          <i class="el-icon-s-fold"></i>
+          <i :class="{
+            'el-icon-s-fold': isCollapse,
+            'el-icon-s-unfold': !isCollapse
+          }"
+          @click="isCollapse = !isCollapse"></i>
           <span>山东奥利给一giao我里giao总公司</span>
         </div>
         <el-dropdown>
@@ -21,7 +25,7 @@
           </span>-->
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>个人设置</el-dropdown-item>
-            <el-dropdown-item>退出账户</el-dropdown-item>
+            <el-dropdown-item @click.native="onLogout">退出账户</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -39,7 +43,8 @@ export default {
   name: 'LayoutIndex',
   data () {
     return {
-      user: {}
+      user: {},
+      isCollapse: false // 侧边菜单栏的展开状态
     }
   },
   components: {
@@ -52,6 +57,22 @@ export default {
     loadUserProfile () {
       getUserProfile().then(res => {
         this.user = res.data.data
+      })
+    },
+    // 退出
+    onLogout () {
+      this.$confirm('确认退出吗?', '退出提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        window.localStorage.removeItem('user')
+        this.$router.push('/login')
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消退出'
+        })
       })
     }
   }
