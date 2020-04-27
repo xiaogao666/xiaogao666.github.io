@@ -34,13 +34,28 @@
         :sm="12"
         :lg="4"
         :span="4"
+        class="aaa"
         v-for="(img, index) in images"
         :key="index"
         >
           <el-image
             style="height: 150px"
             :src="img.url"
-            fit="cover"></el-image>
+            fit="cover">
+            </el-image>
+            <div class="bbb">
+              <!-- 收藏按钮 -->
+              <el-button
+              size="mini"
+              type="info"
+              icon="el-icon-star-off"
+              circle
+              :style=" img.is_collected ? 'color: red' : 'color: whilte'"
+              @click="collectionImage(img.id, !img.is_collected)"
+              ></el-button>
+              <!-- 删除按钮 -->
+              <el-button @click="deleteImage(img.id)" size="mini" type="info" icon="el-icon-delete" circle></el-button>
+            </div>
         </el-col>
 </el-row>
         <!-- 列表分页 -->
@@ -74,7 +89,7 @@
 </template>
 
 <script>
-import { getImage } from '@/api/image'
+import { getImage, deleteImages, collectionImages } from '@/api/image'
 export default {
   name: 'ImageIndex',
   components: {},
@@ -131,9 +146,61 @@ export default {
       this.page = page
       // 重新调用请求
       this.loadImages()
+    },
+    // 删除图片
+    deleteImage (id) {
+      this.$confirm('确定删除该图片？, 是否继续?', '提示', {
+        confirmButtonText: '删除',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteImages(id).then(res => {
+          this.loadImages()
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    // 收藏按钮
+    collectionImage (id, iscollection) {
+      collectionImages(id, iscollection).then(res => {
+        // console.log(res)
+        if (iscollection) {
+          this.loadImages()
+          this.$message({
+            type: 'success',
+            message: '收藏成功'
+          })
+        } else {
+          this.loadImages()
+          this.$message({
+            type: 'danger',
+            message: '取消收藏'
+          })
+        }
+      })
     }
   }
 }
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.aaa {
+  position: relative;
+}
+.bbb {
+  width: 90%;
+  height: 28px;
+  text-align: center;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+}
+</style>

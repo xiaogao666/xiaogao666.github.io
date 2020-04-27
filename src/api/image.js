@@ -21,3 +21,21 @@ export const getImage = params => {
     params
   })
 }
+
+// 删除图片
+export const deleteImages = deleteid => {
+  return request({
+    method: 'DELETE',
+    url: `/mp/v1_0/user/images/${deleteid}`
+  })
+}
+// 收藏图片
+export const collectionImages = (id, collect) => {
+  return request({
+    method: 'PUT',
+    url: `/mp/v1_0/user/images/${id}`,
+    data: {
+      collect
+    }
+  })
+}
