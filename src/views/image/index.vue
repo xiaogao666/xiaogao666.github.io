@@ -43,6 +43,14 @@
             fit="cover"></el-image>
         </el-col>
 </el-row>
+        <!-- 列表分页 -->
+      <el-pagination
+          layout="prev, pager, next"
+          :total="totalCount"
+          :page-size="perPage"
+          @current-change="onCurrentChange"
+          >
+        </el-pagination>
 </el-card>
         <el-dialog
         title="上传素材"
@@ -79,7 +87,10 @@ export default {
       dialogVisible: false,
       uploadHeaders: {
         Authorization: `Bearer ${user.token}`
-      }
+      },
+      page: 1, // 当前页码
+      totalCount: 0, // 图片总数
+      perPage: 12 // 每页显示多少条数据
     }
   },
   computed: {},
@@ -91,10 +102,14 @@ export default {
   methods: {
     loadImages (collect = false) {
       getImage({
-        collect
+        collect,
+        page: this.page,
+        per_page: this.perPage
       }).then(res => {
         // console.log(res)
-        this.images = res.data.data.results
+        const { results, total_count: totalCount } = res.data.data
+        this.images = results
+        this.totalCount = totalCount
       })
     },
     onCollectChange (value) {
@@ -108,6 +123,14 @@ export default {
       this.dialogVisible = false
       // 重新加载素材列表
       this.loadImages(false)
+    },
+    // 切换分页
+    onCurrentChange (page) {
+      // console.log(page)
+      // 更换当前页码
+      this.page = page
+      // 重新调用请求
+      this.loadImages()
     }
   }
 }
