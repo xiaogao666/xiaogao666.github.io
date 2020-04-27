@@ -50,7 +50,7 @@
               type="info"
               icon="el-icon-star-off"
               circle
-              :style=" img.is_collected ? 'color: red' : 'color: whilte'"
+              :style=" img.is_collected ? 'color: red' : 'color: white'"
               @click="collectionImage(img.id, !img.is_collected)"
               ></el-button>
               <!-- 删除按钮 -->
@@ -173,13 +173,15 @@ export default {
       collectionImages(id, iscollection).then(res => {
         // console.log(res)
         if (iscollection) {
-          this.loadImages()
+          this.collect = false
+          this.loadImages(false)
           this.$message({
             type: 'success',
             message: '收藏成功'
           })
         } else {
-          this.loadImages()
+          this.collect = false
+          this.loadImages(false)
           this.$message({
             type: 'danger',
             message: '取消收藏'
