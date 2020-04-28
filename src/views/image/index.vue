@@ -57,7 +57,7 @@
               <el-button @click="deleteImage(img.id)" size="mini" type="info" icon="el-icon-delete" circle></el-button>
             </div>
         </el-col>
-</el-row>
+      </el-row>
         <!-- 列表分页 -->
       <el-pagination
           layout="prev, pager, next"
@@ -66,10 +66,11 @@
           @current-change="onCurrentChange"
           >
         </el-pagination>
-</el-card>
+      </el-card>
         <el-dialog
         title="上传素材"
         :visible.sync="dialogVisible"
+        :append-to-body="true"
         width="30%"
         :before-close="handleClose">
         <el-upload
@@ -131,7 +132,7 @@ export default {
       this.loadImages(value)
     },
     handleClose () {
-      console.log('handleClose')
+      this.dialogVisible = false
     },
     onUploadSuccess () {
       // 上传完成后 关闭弹出层
