@@ -2,7 +2,7 @@
     <!-- <div> -->
         <!-- <div><img src="../../login/logo_index.png" alt="" class="tp"></div> -->
           <el-menu
-    default-active="/"
+    :default-active="$route.path"
     background-color="#002033"
     text-color="pink"
     active-text-color="#ffd04b"
