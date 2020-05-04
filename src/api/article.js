@@ -52,7 +52,7 @@ export const getArticle = articleId => {
 export const updateArticle = (articleId, data, draft = false) => {
   return request({
     method: 'PUT',
-    // 路径参数 需要在url中进行传递  接口路径中有：的  需要传递路径参数
+    // 路径参数 需要在url中进行传递  接口路径中有： 的  需要传递路径参数
     url: `/mp/v1_0/articles/${articleId}`,
     params: {
       draft // 是否存为草稿
